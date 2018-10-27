@@ -43,7 +43,10 @@ export default class MaterialTabs extends React.Component<Props, State> {
     scrollable: PropTypes.bool,
     textStyle: Text.propTypes.style,
     activeTextStyle: Text.propTypes.style,
-    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    items: PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ])).isRequired,
     uppercase: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
   };
@@ -173,7 +176,7 @@ export default class MaterialTabs extends React.Component<Props, State> {
               <Tab
                 allowFontScaling={this.props.allowFontScaling}
                 text={item}
-                key={item}
+                key={(typeof(item) === "string") ? item : item.key}
                 stretch={!this.props.scrollable}
                 onPress={() => this.props.onChange(idx)}
                 active={idx === this.props.selectedIndex}
